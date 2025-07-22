@@ -30,3 +30,6 @@ A simple, responsive web-based task manager that allows users to add, complete, 
    ```bash
    git clone https://github.com/Subhadeep-Samanta/TASK_MANAGER.git
    cd task-manager
+## 📦 Deploy link
+
+https://subhadeep-samanta.github.io/TASK_MANAGER/
