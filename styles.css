@@ -1,3 +1,4 @@
+/* Base page styling */
 body {
   background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
   font-family: 'Segoe UI', Arial, sans-serif;
@@ -5,15 +6,17 @@ body {
   min-height: 100vh;
 }
 
+/* Central container for the app */
 .container {
   background: #fff;
   max-width: 400px;
   margin: 40px auto;
   padding: 32px 24px 24px 24px;
   border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(102,166,255,0.15);
+  box-shadow: 0 8px 32px rgba(102, 166, 255, 0.15);
 }
 
+/* Title styling */
 h1 {
   text-align: center;
   color: #3a7bd5;
@@ -22,12 +25,14 @@ h1 {
   letter-spacing: 1px;
 }
 
+/* Input area layout */
 .input-container {
   display: flex;
   gap: 10px;
   margin-bottom: 24px;
 }
 
+/* Text input box */
 #taskInput {
   flex: 1;
   padding: 10px 12px;
@@ -37,10 +42,13 @@ h1 {
   outline: none;
   transition: border-color 0.2s;
 }
+
+/* Input focus effect */
 #taskInput:focus {
   border-color: #3a7bd5;
 }
 
+/* Add task button */
 button {
   background: linear-gradient(90deg, #3a7bd5 0%, #66a6ff 100%);
   color: #fff;
@@ -50,19 +58,23 @@ button {
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 8px rgba(102,166,255,0.08);
-}
-button:hover {
-  background: linear-gradient(90deg, #66a6ff 0%, #3a7bd5 100%);
-  box-shadow: 0 4px 16px rgba(102,166,255,0.15);
+  box-shadow: 0 2px 8px rgba(102, 166, 255, 0.08);
 }
 
+/* Button hover effect */
+button:hover {
+  background: linear-gradient(90deg, #66a6ff 0%, #3a7bd5 100%);
+  box-shadow: 0 4px 16px rgba(102, 166, 255, 0.15);
+}
+
+/* Task list container */
 #taskList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+/* Individual task item */
 #taskList li {
   background: #f4f8fb;
   margin-bottom: 12px;
@@ -71,23 +83,31 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 2px 8px rgba(102,166,255,0.07);
+  box-shadow: 0 2px 8px rgba(102, 166, 255, 0.07);
   transition: background 0.2s;
 }
+
+/* Completed task styling */
 #taskList li.done {
   background: #d1e7ff;
   text-decoration: line-through;
   color: #7a7a7a;
 }
+
+/* Task text (clickable span) */
 #taskList li span {
   flex: 1;
   font-size: 16px;
   cursor: pointer;
   transition: color 0.2s;
 }
+
+/* Hover effect for text */
 #taskList li span:hover {
   color: #3a7bd5;
 }
+
+/* Task item buttons */
 #taskList li button {
   padding: 6px 10px;
   font-size: 15px;
@@ -96,6 +116,8 @@ button:hover {
   color: #3a7bd5;
   box-shadow: none;
 }
+
+/* Button hover effect in tasks */
 #taskList li button:hover {
   background: #66a6ff;
   color: #fff;

@@ -1,9 +1,9 @@
-// Helper to save a given tasks array to localStorage
+// Save tasks array to localStorage so data persists between page reloads
 function saveTasks(tasks) {
   localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Helper to get current tasks from DOM as array of objects
+// Read the current list of tasks from the DOM and return as an array of objects
 function getCurrentTasks() {
   const taskList = document.getElementById('taskList');
   const tasks = [];
@@ -12,95 +12,130 @@ function getCurrentTasks() {
     if (span) {
       tasks.push({
         text: span.textContent,
-        done: li.classList.contains('done')
+        done: li.classList.contains('done') // track whether task is marked as completed
       });
     }
   }
   return tasks;
 }
 
-// Helper to update a task in the DOM
+// Replace a task's text with an input box for editing, then save it
 function updateTask(li, span) {
   const oldText = span.textContent;
+
+  // Create a text input to allow editing
   const input = document.createElement('input');
   input.type = 'text';
   input.value = oldText;
-  input.size = Math.max(10, oldText.length);
+  input.size = Math.max(10, oldText.length); // adjust size based on text length
+
+  // Create a save button to confirm the edit
   const saveBtn = document.createElement('button');
   saveBtn.textContent = 'Save';
+
+  // When save is clicked, update the task and re-render the span
   saveBtn.onclick = () => {
-    span.textContent = input.value.trim() || oldText;
-    li.replaceChild(span, input);
-    li.removeChild(saveBtn);
-    saveTasks(getCurrentTasks());
+    span.textContent = input.value.trim() || oldText; // if empty, keep old text
+    li.replaceChild(span, input); // swap back to span
+    li.removeChild(saveBtn); // remove save button
+    saveTasks(getCurrentTasks()); // update localStorage
   };
+
   li.replaceChild(input, span);
   li.appendChild(saveBtn);
-  input.focus();
+  input.focus(); // auto-focus for user convenience
 }
 
-// Retrieve and render tasks from localStorage on page load
+// On page load, load all saved tasks from localStorage and render them
 window.onload = function() {
   const savedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
-  console.log('All tasks on load:', savedTasks.map(t => t.text)); // Show all tasks in console
+
+  console.log('All tasks on load:', savedTasks.map(t => t.text)); // Debug log
+
   const taskList = document.getElementById('taskList');
-  taskList.innerHTML = '';
+  taskList.innerHTML = ''; // Clear current list before rendering
+
   savedTasks.forEach(task => {
     const li = document.createElement('li');
-    if (task.done) li.classList.add('done');
+    if (task.done) li.classList.add('done'); // visually mark completed tasks
+
     const span = document.createElement('span');
     span.textContent = task.text;
+
+    // Toggle done status on click
     span.onclick = () => {
-      console.log('Task:', span.textContent); // Show text in console
+      console.log('Task:', span.textContent); // Debug log
       li.classList.toggle('done');
-      saveTasks(getCurrentTasks());
+      saveTasks(getCurrentTasks()); // Save the change
     };
+
+    // Delete task button
     const delBtn = document.createElement('button');
     delBtn.textContent = '❌';
     delBtn.onclick = () => {
       li.remove();
       saveTasks(getCurrentTasks());
     };
+
+    // Edit task button
     const editBtn = document.createElement('button');
     editBtn.textContent = '✏️';
     editBtn.onclick = () => updateTask(li, span);
+
+    // Add task components to the list item
     li.appendChild(span);
     li.appendChild(editBtn);
     li.appendChild(delBtn);
+
+    // Append the list item to the task list
     taskList.appendChild(li);
   });
 };
-function  addTask() {
-    const  input  =  document.getElementById("taskInput");
-    const  taskText  =  input.value.trim();
-    if (taskText  ===  "") return;
 
-    const  li  =  document.createElement("li");
+// Add a new task when "Add" button is clicked
+function addTask() {
+  const input = document.getElementById("taskInput");
+  const taskText = input.value.trim();
 
-    const  span  = document.createElement("span");
-    span.textContent  =  taskText;
-    span.onclick = () => {
-      console.log('Task:', span.textContent); // Show text in console
-      li.classList.toggle('done');
-      saveTasks(getCurrentTasks());
-    };
+  // Do nothing if input is empty
+  if (taskText === "") return;
 
-    const  editBtn = document.createElement("button");
-    editBtn.textContent = '✏️';
-    editBtn.onclick = () => updateTask(li, span);
+  const li = document.createElement("li");
 
-    const  delBtn  = document.createElement("button");
-    delBtn.textContent  =  "❌";
-    delBtn.onclick = () => {
-      li.remove();
-      saveTasks(getCurrentTasks());
-    };
+  const span = document.createElement("span");
+  span.textContent = taskText;
 
-    li.appendChild(span);
-    li.appendChild(editBtn);
-    li.appendChild(delBtn);
-
-    document.getElementById("taskList").appendChild(li);
-    input.value  =  "";
+  // Toggle done status on click
+  span.onclick = () => {
+    console.log('Task:', span.textContent); // Debug log
+    li.classList.toggle('done');
     saveTasks(getCurrentTasks());
+  };
+
+  // Create and assign functionality to edit button
+  const editBtn = document.createElement("button");
+  editBtn.textContent = '✏️';
+  editBtn.onclick = () => updateTask(li, span);
+
+  // Create and assign functionality to delete button
+  const delBtn = document.createElement("button");
+  delBtn.textContent = "❌";
+  delBtn.onclick = () => {
+    li.remove();
+    saveTasks(getCurrentTasks());
+  };
+
+  // Append span and buttons to the task item
+  li.appendChild(span);
+  li.appendChild(editBtn);
+  li.appendChild(delBtn);
+
+  // Add the new task to the list
+  document.getElementById("taskList").appendChild(li);
+
+  // Clear the input field
+  input.value = "";
+
+  // Save updated task list to localStorage
+  saveTasks(getCurrentTasks());
 }
